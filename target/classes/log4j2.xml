@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" name="MobiKwik">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %Logger{36}
+                - %msg%n"/> -->
+            <PatternLayout pattern="[%d{dd MMM yyyy HH:mm:ss,SSS}] %p [%t] %m%n"/>
+        </Console>
+        <RollingRandomAccessFile name="fileAppender"
+                                 fileName="${sys:catalina.home}/logs/application.info.log"
+                                 filePattern="${sys:catalina.home}/logs/application.info.log.%d{yyyy-MM-dd-HH}"
+                                 immediateFlush="${sys:logFlush}">
+            <PatternLayout>
+                <Pattern>[%d{dd MMM yyyy HH:mm:ss,SSS}] %p [%t] %c [%M] %m%n
+                </Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="4"
+                                           modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="42"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.calculator" additivity="false" level="info">
+            <AppenderRef ref="fileAppender"/>
+            <AppenderRef ref="fatalEmailAppender"/>
+        </Logger>
+    </Loggers>
+</Configuration>
